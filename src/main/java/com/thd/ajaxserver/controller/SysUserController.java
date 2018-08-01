@@ -2,10 +2,14 @@ package com.thd.ajaxserver.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,12 +45,10 @@ public class SysUserController {
 			arb.setResult(u);
 		}catch(Exception e){
 			arb.setMessage(e.getMessage());
+			arb.setStatus(StaticVar.STATUS_FAILURE);
 		}
 		return arb;		
 	}
-	
-	
-	
 	
 	/**
 	 * 根据姓名模糊匹配查询SysUser - 带有分页信息
@@ -92,6 +94,91 @@ public class SysUserController {
 	public List<SysUser> query(@PathVariable String sql){
 		return sysUserService.query(sql);
 	}
+	
+	/**
+	 * 保存用户
+	 * url : http://127.0.0.1:8899/ajaxserver/SysUser/saveSysUser
+	 * request body : 
+{
+"userName":"aaa",
+"userSex":"1",
+"userMail":"aaa@ccc.com",
+"userTel":"1234",
+"userStatus":"1",
+"userBirthday":"2015-01-01",
+"orgId":"5"
+}
+	 * 
+	 * @param request
+	 * @param user 需要保存的用户
+	 * @return
+	 */
+	@RequestMapping(value="/saveSysUser",method=RequestMethod.POST)
+	public AjaxReturnBean saveSysUser(HttpServletRequest request,@Valid @RequestBody SysUser sysUser){
+		AjaxReturnBean arb = new AjaxReturnBean();
+		arb.setStatus(StaticVar.STATUS_SUCCESS);
+		try{
+			this.sysUserService.saveSysUser(sysUser);
+			arb.setResult(sysUser);
+		}catch(Exception e){
+			arb.setMessage(e.getMessage());
+			arb.setStatus(StaticVar.STATUS_FAILURE);
+		}
+		return arb;	
+	};
+	
+	
+	/**
+	 * 修改用户
+	 * url : http://127.0.0.1:8899/ajaxserver/SysUser/updateSysUser
+	 * request body : 
+{
+"userName":"aaa",
+"userSex":"1",
+"userMail":"aaa@ccc.com",
+"userTel":"1234",
+"userStatus":"1",
+"userBirthday":"2015-01-01",
+"orgId":"5"
+}
+	 * 
+	 * @param request
+	 * @param user 需要保存的用户
+	 * @return
+	 */
+	@RequestMapping(value="/updateSysUser",method=RequestMethod.POST)
+	public AjaxReturnBean updateSysUser(HttpServletRequest request,@Valid @RequestBody SysUser sysUser){
+		AjaxReturnBean arb = new AjaxReturnBean();
+		arb.setStatus(StaticVar.STATUS_SUCCESS);
+		try{
+			this.sysUserService.updateSysUser(sysUser);
+			arb.setResult(sysUser);
+		}catch(Exception e){
+			e.printStackTrace();
+			arb.setMessage(e.getMessage());
+			arb.setStatus(StaticVar.STATUS_FAILURE);
+		}
+		return arb;	
+	};
+	
+	/**
+	 * 根据ID删除用户
+	 * url : http://127.0.0.1:8899/ajaxserver/SysUser/deleteSysUser/402881e846e139fa0146e13cd2d50003
+	 * @param id 用户ID
+	 * @return
+	 */
+	@RequestMapping(value="/deleteSysUser/{id}",method=RequestMethod.DELETE)
+	public AjaxReturnBean deleteSysUser(@PathVariable String id){
+		AjaxReturnBean arb = new AjaxReturnBean();
+		arb.setStatus(StaticVar.STATUS_SUCCESS);
+		try{
+			this.sysUserService.deleteSysUser(id);
+		}catch(Exception e){
+			arb.setMessage(e.getMessage());
+			arb.setStatus(StaticVar.STATUS_FAILURE);
+		}
+		return arb;	
+	};
 	
 	
 	

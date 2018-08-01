@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thd.ajaxserver.pojo.SysUser;
 import com.thd.ajaxserver.repository.SysUserRepository;
+import com.thd.tool.MyListUtils;
 import com.thd.util.dao.JdbcDao;
 import com.thd.util.repository.EntityDao;
 @Service
@@ -33,6 +34,10 @@ public class SysUserServiceImpl implements SysUserService {
 
 	@Override
 	public void saveSysUser(SysUser sysUser) {
+		List l = this.sysUserRepository.findByUserName(sysUser.getUserName());
+		if(MyListUtils.isNotEmpty(l)){
+			throw new RuntimeException("存在相同的用户名");
+		}
 		sysUserRepository.save(sysUser);
 	}
 
@@ -40,11 +45,25 @@ public class SysUserServiceImpl implements SysUserService {
 	public void deleteSysUser(String id) {
 		sysUserRepository.delete(this.querySysUserById(id));
 	}
+	@Override
+	public void updateSysUser(SysUser sysUser){
+		Object u = entityDao.queryById(SysUser.class, sysUser.getUserId());
+		if(u == null){
+			throw new RuntimeException("未找到用户");
+		}
+		List l = this.sysUserRepository.findByUserName(sysUser.getUserName());
+		if(MyListUtils.isNotEmpty(l)){
+			throw new RuntimeException("存在相同的用户名");
+		}
+		entityDao.update(sysUser);
+	};
 	
 	@Override
 	public List query(String sql){
 		return this.jdbcDao.query(sql, null,null);
 	};
+	
+	
 	
 	
 	

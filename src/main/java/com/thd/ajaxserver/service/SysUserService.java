@@ -37,6 +37,12 @@ public interface SysUserService {
 	 */
 	@Transactional
 	public void deleteSysUser(String id);
+	/**
+	 * 更新sysUser
+	 * @param sysUser 实体
+	 */
+	@Transactional
+	public void updateSysUser(SysUser sysUser);
 	
 	public List query(String sql);
 }
