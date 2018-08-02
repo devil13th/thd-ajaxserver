@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thd.ajaxserver.pojo.SysUser;
+import com.thd.tool.bean.TableBean;
 
 @Service
 public interface SysUserService {
@@ -43,6 +44,8 @@ public interface SysUserService {
 	 */
 	@Transactional
 	public void updateSysUser(SysUser sysUser);
-	
+	@Transactional
 	public List query(String sql);
+	@Transactional
+	public TableBean queryAll(TableBean tableBean);
 }

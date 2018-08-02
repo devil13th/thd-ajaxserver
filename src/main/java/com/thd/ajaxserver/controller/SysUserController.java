@@ -3,6 +3,7 @@ package com.thd.ajaxserver.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.thd.ajaxserver.repository.SysUserRepository;
 import com.thd.ajaxserver.service.SysUserService;
 import com.thd.tool.bean.AjaxReturnBean;
 import com.thd.tool.bean.StaticVar;
+import com.thd.tool.bean.TableBean;
 
 @RestController
 @RequestMapping(value="/SysUser")
@@ -36,10 +38,10 @@ public class SysUserController {
 	 * @return
 	 */
 	@RequestMapping(value="/queryById/{id}",method=RequestMethod.GET)
-	public AjaxReturnBean queryById(@PathVariable String id){
+	public AjaxReturnBean queryById(HttpServletRequest req,HttpServletResponse res,@PathVariable String id){
 		AjaxReturnBean arb = new AjaxReturnBean();
 		arb.setStatus(StaticVar.STATUS_SUCCESS);
-		
+		System.out.println(req.getHeader("aa"));
 		try{
 			SysUser u = this.sysUserService.querySysUserById(id);
 			arb.setResult(u);
@@ -47,7 +49,7 @@ public class SysUserController {
 			arb.setMessage(e.getMessage());
 			arb.setStatus(StaticVar.STATUS_FAILURE);
 		}
-		return arb;		
+		return arb;
 	}
 	
 	/**
@@ -179,6 +181,42 @@ public class SysUserController {
 		}
 		return arb;	
 	};
+	
+	
+	
+	
+	/**
+	 * 保存用户
+	 * url : http://127.0.0.1:8899/ajaxserver/SysUser/queryAll
+	 * request body : 
+{
+"userName":"aaa",
+"userSex":"1",
+"userMail":"aaa@ccc.com",
+"userTel":"1234",
+"userStatus":"1",
+"userBirthday":"2015-01-01",
+"orgId":"5"
+}
+	 * 
+	 * @param request
+	 * @param user 需要保存的用户
+	 * @return
+	 */
+	@RequestMapping(value="/queryAll",method=RequestMethod.POST)
+	public AjaxReturnBean queryAll(HttpServletRequest request,@Valid @RequestBody TableBean tableBean){
+		AjaxReturnBean arb = new AjaxReturnBean();
+		arb.setStatus(StaticVar.STATUS_SUCCESS);
+		try{
+			this.sysUserService.queryAll(tableBean);
+			arb.setResult(tableBean);
+		}catch(Exception e){
+			arb.setMessage(e.getMessage());
+			arb.setStatus(StaticVar.STATUS_FAILURE);
+		}
+		return arb;	
+	};
+	
 	
 	
 	
