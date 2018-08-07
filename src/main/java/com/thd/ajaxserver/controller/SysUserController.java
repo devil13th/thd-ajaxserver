@@ -186,21 +186,14 @@ public class SysUserController {
 	
 	
 	/**
-	 * 保存用户
+	 * 查询用户列表
 	 * url : http://127.0.0.1:8899/ajaxserver/SysUser/queryAll
 	 * request body : 
 {
-"userName":"aaa",
-"userSex":"1",
-"userMail":"aaa@ccc.com",
-"userTel":"1234",
-"userStatus":"1",
-"userBirthday":"2015-01-01",
-"orgId":"5"
+"current":1,
+"pageSize":10
 }
-	 * 
-	 * @param request
-	 * @param user 需要保存的用户
+	
 	 * @return
 	 */
 	@RequestMapping(value="/queryAll",method=RequestMethod.POST)
