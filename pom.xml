@@ -50,6 +50,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 		<dependency>
              <groupId>mysql</groupId>
              <artifactId>mysql-connector-java</artifactId>
@@ -72,6 +78,7 @@
 		    <artifactId>springboot-webjars</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
 		
 
 		<dependency>
@@ -97,6 +104,13 @@
 	</dependencies>
 
 	<build>
+		<!-- <resources>
+			<resource>
+				<directory>src/main/resources/templates</directory>
+				<targetPath>templates/</targetPath>
+			</resource>
+		</resources>
+		 -->
 		<plugins>
 			<!-- 设置maven编译使用的jdk -->
 			<plugin>

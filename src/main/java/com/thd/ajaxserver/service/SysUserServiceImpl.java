@@ -52,15 +52,16 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 	@Override
 	public void updateSysUser(SysUser sysUser){
-		Object u = entityDao.queryById(SysUser.class, sysUser.getUserId());
+		SysUser u = (SysUser)entityDao.queryById(SysUser.class, sysUser.getUserId());
 		if(u == null){
 			throw new RuntimeException("未找到用户");
 		}
-		List l = this.sysUserRepository.findByUserName(sysUser.getUserName());
-		if(MyListUtils.isNotEmpty(l)){
+		
+		if(this.existSameName(sysUser.getUserName(),sysUser.getUserId())){
 			throw new RuntimeException("存在相同的用户名");
+		}else{
+			entityDao.update(sysUser);
 		}
-		entityDao.update(sysUser);
 	};
 	
 	@Override
@@ -77,8 +78,9 @@ public class SysUserServiceImpl implements SysUserService {
 				+ " user_sex as userSex, "
 				+ " user_mail as userMail, "
 				+ " user_tel as userTel, "
+				+ " org_name as orgName, "
 				+ " user_birthday as userBirthday "
-				+ " from sys_user u where 1=1";
+				+ " from sys_user u left join sys_org o on u.org_id = o.org_id where 1=1";
 		
 		
 		
@@ -91,14 +93,23 @@ public class SysUserServiceImpl implements SysUserService {
 			
 		}
 		
+		List params = new ArrayList();
 		if(tableBean.getConditions() != null){
 			Map m = tableBean.getConditions();
-			List params = new ArrayList();
+			
 			if(m.get("userName") != null){
 				String userName = m.get("userName").toString();
 				if(MyStringUtils.isNotEmpty(userName)){
 					sql += " and user_name like ? ";
 					params.add("%" + userName.trim() + "%");
+				}
+			}
+			
+			if(m.get("userSex") != null){
+				String userSex = m.get("userSex").toString();
+				if(MyStringUtils.isNotEmpty(userSex)){
+					sql += " and user_sex = ? ";
+					params.add(userSex.trim());
 				}
 			}
 		}
@@ -107,12 +118,37 @@ public class SysUserServiceImpl implements SysUserService {
 		Page p = new Page();
 		p.setPageSize(tableBean.getPageSize());
 		p.setCurrentPage(tableBean.getCurrent());
-		List l = this.jdbcDao.query(sql, null,p);
+		List l = this.jdbcDao.query(sql, params.toArray(),p);
 		tableBean.setResult(l);
 		tableBean.setTotal(p.getListSize());
 		
 		return tableBean;
 	}
+	
+	@Override
+	public Boolean existSameName(String name,String id){
+		String sql = "select user_id from sys_user u where u.user_name = ? and u.user_id <> ? ";
+		List params = new ArrayList();
+		params.add(name);
+		params.add(id);
+		List l  = this.jdbcDao.query(sql, params.toArray(), null);
+		return MyListUtils.isNotEmpty(l);
+	};
+	
+	
+	public List queryOrg(String orgName){
+		String sql = "select org_id,org_code,org_name from sys_org where 1=1";
+		List params = new ArrayList();
+		if(MyStringUtils.isNotEmpty(orgName)){
+			sql += " and ( org_name like ? or org_code like ? )";
+			params.add("%" + orgName.trim() + "%");
+			params.add("%" + orgName.trim().toUpperCase() + "%");
+		}
+		
+		List l = this.jdbcDao.query(sql,params.toArray(),null);
+		
+		return l;
+	};
 	
 	
 	

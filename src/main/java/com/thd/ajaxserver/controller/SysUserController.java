@@ -1,6 +1,8 @@
 package com.thd.ajaxserver.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -209,6 +211,34 @@ public class SysUserController {
 		}
 		return arb;	
 	};
+	
+	/**
+	 * 查询所有组织机构
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/queryOrgForSelect",method=RequestMethod.GET)
+	public AjaxReturnBean queryOrgForSelect(HttpServletRequest request,String orgName){
+		AjaxReturnBean arb = new AjaxReturnBean();
+		arb.setStatus(StaticVar.STATUS_SUCCESS);
+		try{
+			List l = this.sysUserService.queryOrg(orgName);
+			arb.setResult(l);
+		}catch(Exception e){
+			arb.setMessage(e.getMessage());
+			arb.setStatus(StaticVar.STATUS_FAILURE);
+		}
+		return arb;	
+	};
+	
+	//url : http://127.0.0.1:8899/ajaxserver/SysUser/test
+	@RequestMapping(value="/test",method=RequestMethod.GET)
+	public Map test(){
+		Map m = new HashMap();
+		m.put("a", 1);
+		m.put("b","2");
+		return m;
+	}
 	
 	
 	

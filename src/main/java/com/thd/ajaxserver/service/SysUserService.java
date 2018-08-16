@@ -48,4 +48,20 @@ public interface SysUserService {
 	public List query(String sql);
 	@Transactional
 	public TableBean queryAll(TableBean tableBean);
+	/**
+	 * 是否存在姓名为name且id不是参数中id的用户
+	 * @param name 姓名
+	 * @param id 主键
+	 * @return 存在：true  不存在:false
+	 */
+	@Transactional
+	public Boolean existSameName(String name,String id);
+	
+	/**
+	 * 查询所有组织机构
+	 * @param orgName 组织机构名称
+	 * @return
+	 */
+	@Transactional
+	public List queryOrg(String orgName);
 }
