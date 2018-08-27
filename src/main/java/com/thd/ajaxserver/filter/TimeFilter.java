@@ -12,10 +12,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.annotation.Order;
-@Order(1)
+@Order(2)
 //重点
-@WebFilter(filterName = "crossDomainFilter", urlPatterns = "/*")
-public class CrossDomainFilter implements Filter {
+@WebFilter(filterName = "TimeFilter", urlPatterns = "/*")
+public class TimeFilter implements Filter {
 
 	@Override
 	public void destroy() {
@@ -25,15 +25,13 @@ public class CrossDomainFilter implements Filter {
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) 
 			throws IOException, ServletException {
-		HttpServletResponse response = (HttpServletResponse) res;
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		//response.setHeader("Access-Control-Allow-Origin", "aa,access-control-allow-origin,content-type");
-		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-		response.setHeader("Access-Control-Max-Age", "3600");
-		response.setHeader("Access-Control-Allow-Headers", "*");
+		
+		long beginTime = System.currentTimeMillis();
+		
 		System.out.println("*********************************" + this.getClass().getName() + " start **************************");
 		chain.doFilter(req, res);
 		System.out.println("*********************************" + this.getClass().getName() + " end **************************");
+		System.out.println(" 总执行时间:" +  (System.currentTimeMillis() - beginTime));
 	}
 
 	@Override
