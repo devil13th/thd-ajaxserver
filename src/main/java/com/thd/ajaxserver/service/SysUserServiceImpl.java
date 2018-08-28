@@ -3,6 +3,7 @@ package com.thd.ajaxserver.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,9 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	@Transactional
 	public SysUser querySysUserById(String id) {
-		return sysUserRepository.findById(id).get();
+		Optional<SysUser> opt = sysUserRepository.findById(id);
+		return opt.isPresent() ? opt.get() : null;
+		//return sysUserRepository.findById(id).get();
 	}
 
 	@Override

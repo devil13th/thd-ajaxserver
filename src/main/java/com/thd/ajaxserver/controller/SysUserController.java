@@ -26,6 +26,7 @@ import com.thd.tool.bean.AjaxReturnBean;
 import com.thd.tool.bean.RestfulResponseResult;
 import com.thd.tool.bean.StaticVar;
 import com.thd.tool.bean.TableBean;
+import com.thd.tool.exception.MyException;
 
 @RestController
 @RequestMapping(value="/SysUser")
@@ -255,9 +256,14 @@ public class SysUserController {
 	public ResponseEntity<?> queryOne(HttpServletRequest req,HttpServletResponse res,@PathVariable String id){
 		try{
 			SysUser u = this.sysUserService.querySysUserById(id);
+			if( null == u){
+				throw new MyException("未找到用户123");
+			}
 			return RestfulResponseResult.returnSuccess(u);
 		}catch(Exception e){
-			return RestfulResponseResult.returnFailure(HttpStatus.NOT_FOUND, "未找到该用户");
+			//return RestfulResponseResult.returnFailure(HttpStatus.NOT_FOUND, "未找到该用户");
+			return RestfulResponseResult.returnFailure(e);
+			
 		}
 	}
 	
