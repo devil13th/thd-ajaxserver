@@ -37,7 +37,7 @@ public class LogInterceptor implements HandlerInterceptor {
 		Long startTime = (Long)request.getAttribute("__startTime");
 		System.out.println("LogInterceptor拦截器记录执行时间:" + ( System.currentTimeMillis() - startTime));
 		HandlerMethod method = (HandlerMethod)handler;
-		
+		 
 		System.out.println(method.getBean().getClass().getName() + "." + method.getMethod().getName() + " 执行结束 ");
 		System.out.println("afterCompletion");
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);

@@ -18,12 +18,20 @@ public class WebConfig implements WebMvcConfigurer {
 	@Autowired
 	private LogInterceptor loginterceptor;
 	
+	/**
+	 * 拦截器的配置
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginterceptor);
 		//WebMvcConfigurer.super.addInterceptors(registry);
 	}
 	
+	
+	/**
+	 * Filter 的配置
+	 * @return
+	 */
 	@Bean
 	public FilterRegistrationBean TimeFilter() {
 		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
