@@ -11,6 +11,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import com.thd.ajaxserver.pojo.SysUser;
 import com.thd.ajaxserver.repository.SysUserRepository;
 import com.thd.ajaxserver.service.SysUserService;
 import com.thd.tool.bean.AjaxReturnBean;
+import com.thd.tool.bean.RestfulResponseResult;
 import com.thd.tool.bean.StaticVar;
 import com.thd.tool.bean.TableBean;
 
@@ -238,6 +241,24 @@ public class SysUserController {
 		m.put("a", 1);
 		m.put("b","2");
 		return m;
+	}
+	
+	
+	
+	/**
+	 * 根据id查询用户
+	 * url : http://127.0.0.1:8899/ajaxserver/SysUser/queryOne/402881e846e119dc0146e119e1ed0006
+	 * @param id 用户ID
+	 * @return
+	 */
+	@RequestMapping(value="/queryOne/{id}",method=RequestMethod.GET)
+	public ResponseEntity<?> queryOne(HttpServletRequest req,HttpServletResponse res,@PathVariable String id){
+		try{
+			SysUser u = this.sysUserService.querySysUserById(id);
+			return RestfulResponseResult.returnSuccess(u);
+		}catch(Exception e){
+			return RestfulResponseResult.returnFailure(HttpStatus.NOT_FOUND, "未找到该用户");
+		}
 	}
 	
 	
