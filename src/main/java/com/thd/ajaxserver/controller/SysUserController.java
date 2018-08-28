@@ -257,7 +257,7 @@ public class SysUserController {
 		try{
 			SysUser u = this.sysUserService.querySysUserById(id);
 			if( null == u){
-				throw new MyException("未找到用户123");
+				throw new MyException("未找到用户");
 			}
 			return RestfulResponseResult.returnSuccess(u);
 		}catch(Exception e){
