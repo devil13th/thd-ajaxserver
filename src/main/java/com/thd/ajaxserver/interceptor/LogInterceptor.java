@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 @Component
@@ -24,6 +25,8 @@ public class LogInterceptor implements HandlerInterceptor {
 		Long startTime = (Long)request.getAttribute("__startTime");
 		System.out.println("LogInterceptor拦截器记录执行时间:" + ( System.currentTimeMillis() - startTime));
 		System.out.println("postHandle");
+		HandlerMethod method = (HandlerMethod)handler;
+		System.out.println(method.getBean().getClass().getName() + "." + method.getMethod().getName() + " 开始执行 ");
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 	
@@ -33,6 +36,9 @@ public class LogInterceptor implements HandlerInterceptor {
 			throws Exception {
 		Long startTime = (Long)request.getAttribute("__startTime");
 		System.out.println("LogInterceptor拦截器记录执行时间:" + ( System.currentTimeMillis() - startTime));
+		HandlerMethod method = (HandlerMethod)handler;
+		
+		System.out.println(method.getBean().getClass().getName() + "." + method.getMethod().getName() + " 执行结束 ");
 		System.out.println("afterCompletion");
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
