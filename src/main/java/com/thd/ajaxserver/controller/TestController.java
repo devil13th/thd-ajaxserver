@@ -28,7 +28,29 @@ public class TestController {
 			return RestfulResponseResult.returnFailure(e);
 			
 		}
+		/**
+		 * 测试脚本
+function send(){
+
+  fetch("http://127.0.0.1:8080/ajaxserver/Test/transfer",{
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+      },
+      body:JSON.stringify({userBirthday:1535472519000})
+  }).then(function(res){
+    console.log(res);
+    return res.text();
+  }).then(function(res){
+    console.log(res);
+  })
+
+}
+
+send();
+		 */
 	}
+	
 	
 	
 	
