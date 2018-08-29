@@ -31,7 +31,6 @@ public class TestController {
 		/**
 		 * 测试脚本
 function send(){
-
   fetch("http://127.0.0.1:8080/ajaxserver/Test/transfer",{
       method: 'POST',
       headers:{
@@ -44,9 +43,7 @@ function send(){
   }).then(function(res){
     console.log(res);
   })
-
 }
-
 send();
 		 */
 	}

@@ -1,5 +1,4 @@
 package com.thd.ajaxserver.pojo;
-import java.util.Date;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -7,8 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * cn.thd.pojo.se.SysUser entity. 
@@ -41,6 +41,7 @@ public class SysUser implements Serializable {
 		private java.lang.String userTel;
 		// 
 		@Column(name="user_birthday")
+		@DateTimeFormat(pattern="yyyy-MM-dd") 
 		private java.util.Date userBirthday;
 		// 
 		@Column(name="user_status")

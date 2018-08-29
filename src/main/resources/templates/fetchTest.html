@@ -1,0 +1,202 @@
+<!doctype>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+<title>Fetch例子</title>
+
+<script>
+var ctx = "[(${#request.getContextPath()})]";
+ 
+//var url = "http://127.0.0.1:8000/ajaxserver";
+var url = ctx;
+console.log(JSON.stringify({userBirthday:1535472519000}))
+function testFetchPost(){
+  fetch(url+"/fetch/testFetchPost",{
+      method: 'POST',
+      headers:{
+		//body中内容的媒体类型
+        'Content-Type': 'application/json;charset=UTF-8'
+        
+      },
+      body:JSON.stringify({userBirthday:1535472519000})
+  }).then(function(res){
+    console.log(res);
+	if (res.ok) {
+        return res.text();
+    } else if (res.status == 401) {
+        // To do with res
+    }
+   
+  }).then(function(res){
+    console.log(res);
+  })
+}
+
+
+//模拟表单提交
+function testFormPost(){
+  fetch(url+"/fetch/testFormPost",{
+      method: 'POST',
+      headers:{
+		//body中内容的媒体类型
+         "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+	  credentials: 'include',
+      body:"userBirthday=2013-01-15&userName=zhangsan"
+  }).then(function(res){
+    console.log(res);
+	if (res.ok) {
+        return res.text();
+    } else if (res.status == 401) {
+        // To do with res
+    }
+    
+  }).then(function(res){
+    console.log(res);
+  })
+}
+
+
+//GET请求-路径参数
+function testGetPathVariable(){
+  fetch(url+"/fetch/testGetPathVariable/zhangsan",{
+      method: 'GET',
+      headers:{
+		//body中内容的媒体类型
+        // "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+	  //credentials: 'include',
+      //body:"userBirthday=2013-01-15&userName=zhangsan"
+  }).then(function(res){
+    console.log(res);
+	if (res.ok) {
+        return res.text();
+    } else if (res.status == 401) {
+        // To do with res
+    }
+    
+  }).then(function(res){
+    console.log(res);
+  })
+}
+
+
+
+//GET请求- ?后加参数
+function testGetRequestParam(){
+  fetch(url+"/fetch/testGetRequestParam?name=zhangsan",{
+      method: 'GET',
+      headers:{
+		//body中内容的媒体类型
+        // "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+      },
+	  //credentials: 'include',
+      //body:"userBirthday=2013-01-15&userName=zhangsan"
+  }).then(function(res){
+    console.log(res);
+	if (res.ok) {
+        return res.text();
+    } else if (res.status == 401) {
+        // To do with res
+    }
+    
+  }).then(function(res){
+    console.log(res);
+  })
+}
+
+
+//DELETE请求 路径参数
+function testFetchDelete(){
+  fetch(url+"/fetch/testFetchDelete/zhangsan",{
+      method: 'DELETE',
+      headers:{
+		//body中内容的媒体类型
+        // "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    	 // 'xa':123
+      },
+	  credentials: 'include',
+      //body:"userBirthday=2013-01-15&userName=zhangsan"
+  }).then(function(res){
+    console.log(res);
+	if (res.ok) {
+        return res.text();
+    } else if (res.status == 401) {
+        // To do with res
+    }
+    
+  }).then(function(res){
+    console.log(res);
+  })
+}
+
+
+
+</script>
+</head>
+
+<body>
+
+<input type="button" value="测试Post testFetchPost" onclick="testFetchPost()"/><br/>
+<pre>
+1.headers对象的属性和后台request设置的Headerresponse.setHeader("Access-Control-Allow-Headers", "aab,access-control-allow-origin,content-type")允许的属性对应.
+
+如果这样设置response.setHeader("Access-Control-Allow-Headers", "*");则客户端的headers可以使用任何属性
+</pre>
+<br/><br/>
+ <input type="button" value="测试Post testFormPost" onclick="testFormPost()"/><br/>
+
+
+<pre>
+ 1. application/json、application/xml等格式的数据，必须使用@RequestBody来处理。
+
+
+@RequestMapping(value = "/", method = RequestMethod.POST)
+public String postUser(@RequestBody User user,@ModelAttribute User user1) {
+// 处理"/users/"的POST请求，用来创建User
+// 除了@ModelAttribute绑定参数之外，还可以通过@RequestParam从页面中传递参数
+</pre>
+
+
+<pre>
+日期格式化问题
+@DateTimeFormat(pattern="yyyy-MM-dd") 
+private java.util.Date userBirthday;
+
+res 实际上该规范定义的 Response 对象，它有如下方法
+
+arrayBuffer()
+blob()
+json()
+text()
+formData()
+
+
+此外，Fetch 跨域请求时默认不会带 cookie，需要时得手动指定 credentials: 'include'
+fetch('doAct.action', {credentials: 'include'}).then(function(res) {
+    // ...
+})
+
+
+credentials: 'include', 属性的加入后台就不能使用response.setHeader("Access-Control-Allow-Origin", "*"); 
+否则会报错
+The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'. Origin 'null' is therefore not allowed access.
+
+可以这样做
+response.setHeader("Access-Control-Allow-Origin",request.getHeader("Origin"));
+
+
+post方式才可以用body属性
+</pre>
+
+ <input type="button" value="测试GET testGetPathVariable" onclick="testGetPathVariable()"/><br/>
+ 
+ <input type="button" value="测试GET testGetRequestParam" onclick=" testGetRequestParam()"/><br/><br/><br/>
+
+ <input type="button" value="测试DELETE" onclick="testFetchDelete()"/><br/>
+ <pre>
+ 注：使用DELETE方法需要在后台设置允许的方法
+ response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+ </pre>
+
+</body>
+</html>
