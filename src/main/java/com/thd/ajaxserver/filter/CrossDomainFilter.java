@@ -55,8 +55,8 @@ public class CrossDomainFilter implements Filter {
 		//response.setHeader("Access-Control-Max-Age", "3600");
 		
 		//请求头中设置允许的请求header的属性,多个属性使用逗号","隔开。
-		response.setHeader("Access-Control-Allow-Headers", "aab,access-control-allow-origin,content-type");
-		//response.setHeader("Access-Control-Allow-Headers", "*");
+		//response.setHeader("Access-Control-Allow-Headers", "aab,access-control-allow-origin,content-type");
+		response.setHeader("Access-Control-Allow-Headers", "*");
 		
 		
 		System.out.println("*********************************" + this.getClass().getName() + " start **************************");

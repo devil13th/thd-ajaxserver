@@ -24,6 +24,8 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginterceptor);
+		//对某些地址进行拦截某些路径不拦截
+		registry.addInterceptor(loginterceptor).addPathPatterns("/**").excludePathPatterns("/static/**");
 		//WebMvcConfigurer.super.addInterceptors(registry);
 	}
 	

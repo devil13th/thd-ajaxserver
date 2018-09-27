@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.core.annotation.Order;
 @Order(2)
 //重点
@@ -38,5 +39,11 @@ public class TimeFilter implements Filter {
 	public void init(FilterConfig arg0) throws ServletException {
 		System.out.println("load " + this.getClass().getName() + " ... ");
 	}
+	
+	/**
+	 * 1.在主配置类上添加注释@ServletComponentScan
+	 * 2.在Filter类上添加注释@WebFilter(filterName = "TimeFilter", urlPatterns = "/*")
+	 * 3.编写Filter内容
+	 */
 
 }
