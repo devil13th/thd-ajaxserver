@@ -1,14 +1,14 @@
-children: 
-  name: devil13th
-  age: 5
-  birthday: 2014/01/01
-  m: {school: 皇城根小学,grade: 一年级,no: 1}
+ymlexample: 
+  name: devil13th...
+  age: 22
+  birthday: 2013/01/01
+  m: {school: 皇城根小学1,grade: 一年级1,no: 1}
   l: 
-    - 英语
-    - 游泳
-    - 跳绳
-    - 跑步
+    - 英语1
+    - 游泳1
+    - 跳绳1
+    - 跑步1
   dog: 
-    name: dog
-    age: 5
+    name: dog1
+    age: 51
   

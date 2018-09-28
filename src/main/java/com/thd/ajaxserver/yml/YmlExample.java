@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /** 
@@ -13,10 +14,13 @@ import org.springframework.stereotype.Component;
  * @ConfigurationProperties：告诉SpringBoot将本类中的所有属性和配置文件中相关的配置进行绑定
  * prefix = "children"：配置文件中哪个下面的所有属性进行一一映射
  * 只有这个组件是容器中的组件，才能容器提供的@ConfigurationProperties功能  
+ * @ConfigurationProperties(prefix = "ymlexample") 职能从全局配置文件中获取值；
+ * prefix属性的值必须使用小写字母,可加中划线- 
+ *  
  */
 @Component
-@ConfigurationProperties(prefix="children")
-public class Children {
+@ConfigurationProperties(prefix="ymlexample")
+public class YmlExample {
 	private String name;
 	private int age;
 	private Date birthday;
