@@ -10,11 +10,13 @@ import org.springframework.stereotype.Component;
 
 /** 
  * 使用yml文件进行配置的例子 
+ * 
  * 将配置文件中配置的每一个属性的值，映射到这个组件中  
- * @ConfigurationProperties：告诉SpringBoot将本类中的所有属性和配置文件中相关的配置进行绑定
- * prefix = "children"：配置文件中哪个下面的所有属性进行一一映射
- * 只有这个组件是容器中的组件，才能容器提供的@ConfigurationProperties功能  
- * @ConfigurationProperties(prefix = "ymlexample") 职能从全局配置文件中获取值；
+ * @ConfigurationProperties:告诉SpringBoot将本类中的所有属性和配置文件中相关的配置进行绑定
+ * prefix = "children":与配置文件中哪个一级属性下面的所有属性值进行一一映射
+ * @Component:只有这个组件是容器中的组件，才能容器提供的@ConfigurationProperties功能  
+
+ * @ConfigurationProperties(prefix = "ymlexample") 只能从全局配置文件中获取值
  * prefix属性的值必须使用小写字母,可加中划线- 
  *  
  */
